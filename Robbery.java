@@ -21,7 +21,7 @@ public class Robbery {
 			}
 		}
 
-		return recurHelper(capacity, sizes, worths, sack, sizes.length - 1);
+		return recurHelper(capacity, sizes, worths, sack, sizes.length);
 	}
 
 	private int recurHelper(
@@ -31,7 +31,13 @@ public class Robbery {
 		int[][] sack,
 		int n
 	){
-		return 0;
+		if(sack[n][capacity] < 0){
+			if(sizes[n - 1] > capacity){
+				sack[n][capacity] = recurHelper(capacity, sizes, worths, sack, n - 1);
+			}else sack[n][capacity] = Math.max(worths[n - 1] + recurHelper(capacity - sizes[n - 1], sizes, worths, sack, n - 1), recurHelper(capacity, sizes, worths, sack, n - 1));
+		}
+
+		return sack[n][capacity];
 	}
 
 	public int maximizeRobWorthBottomUp(
