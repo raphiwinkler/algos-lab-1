@@ -13,7 +13,25 @@ public class Robbery {
 		int[] worths
 	) {
 		// fill in here, change the return
-			return 0;
+		int sack[][] = new int[sizes.length+1][capacity+1];
+		for(int i = 0; i < sizes.length+1; i++){
+			for(int j = 0; j < capacity+1; j++){
+				sack[i][j] = -1;
+				if(i == 0 || j == 0) sack[i][j] = 0;
+			}
+		}
+
+		return recurHelper(capacity, sizes, worths, sack, sizes.length - 1);
+	}
+
+	private int recurHelper(
+		int capacity,
+		int[] sizes,
+		int[] worths,
+		int[][] sack,
+		int n
+	){
+		return 0;
 	}
 
 	public int maximizeRobWorthBottomUp(
@@ -22,7 +40,21 @@ public class Robbery {
 		int[] worths
 	) {
 		// fill in here, change the return
-		return 0;
+		int sack[][] = new int[sizes.length+1][capacity+1];
+
+		for(int i = 0; i <= sizes.length; i++){
+			for(int j = 0; j <= capacity; j++){
+				if(i == 0 || j == 0){
+					sack[i][j] = 0;
+				}else if(sizes[i-1] <= j){
+					sack[i][j] = Math.max(worths[i-1] + sack[i-1][j-sizes[i-1]], sack[i-1][j]);
+				}else{
+					sack[i][j] = sack[i-1][j];
+				}
+			}
+		}
+
+		return sack[sizes.length][capacity];
 	}
 
 /**
